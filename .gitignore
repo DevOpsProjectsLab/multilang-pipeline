@@ -61,7 +61,6 @@ test-results/
 reports/
 *.coverage
 *.lcov
-*.html
 .AppleDouble
 .LSOverride
 ehthumbs.db
