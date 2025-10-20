@@ -56,6 +56,7 @@ jobs:
   Test:
     name: Test (${{ matrix.language }})
     runs-on: ubuntu-latest
+    needs: [Build]
     strategy:
       matrix:
         language: [python, node]
@@ -95,7 +96,7 @@ jobs:
           npm ci
 
       - name: Run Unit & Integration Tests (Node)
-        if: matrix.lang == 'node'
+        if: matrix.language == 'node'
         run: |
           cd frontend
           npm test -- --run
