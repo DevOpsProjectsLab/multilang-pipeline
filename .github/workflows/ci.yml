@@ -1,0 +1,101 @@
+name: Multi-Language CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+jobs:
+  Build:
+    name: Build (${{ matrix.language }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        language: [python, node]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        if: matrix.language == 'python'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies (Python)
+        if: matrix.language == 'python'
+        run: |
+          cd back-end
+          pip install -r requirements.txt
+
+      - name: Build (Python)
+        if: matrix.language == 'python'
+        run: |
+          cd back-end
+          python -m py_compile $(find app -name "*.py")
+
+      - name: Setup Node.js
+        if: matrix.language == 'node'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies (Node)
+        if: matrix.language == 'node'
+        run: |
+          cd front-end
+          npm ci
+
+      - name: Build (Node)
+        if: matrix.language == 'node'
+        run: |
+          cd front-end
+          npm run build
+  
+  Test:
+    name: Test (${{ matrix.language }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        language: [python, node]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Python
+        if: matrix.language == 'python'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies (Python)
+        if: matrix.language == 'python'
+        run: |
+          cd back-end
+          pip install -r requirements.txt
+
+      - name: Run Unit & Integration Tests (Python)
+        if: matrix.language == 'python'
+        run: |
+          cd back-end
+          pytest -q --cov --maxfail=1 --disable-warnings
+
+      - name: Setup Node.js
+        if: matrix.language == 'node'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies (Node)
+        if: matrix.language == 'node'
+        run: |
+          cd front-end
+          npm ci
+
+      - name: Run Unit & Integration Tests (Node)
+        if: matrix.lang == 'node'
+        run: |
+          cd frontend
+          npm test -- --run
