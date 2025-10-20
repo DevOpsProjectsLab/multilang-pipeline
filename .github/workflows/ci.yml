@@ -10,6 +10,7 @@ jobs:
     name: Build (${{ matrix.language }})
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         language: [python, node]
 
@@ -58,6 +59,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [Build]
     strategy:
+      fail-fast: false
       matrix:
         language: [python, node]
 
@@ -81,7 +83,7 @@ jobs:
         if: matrix.language == 'python'
         run: |
           cd back-end
-          pytest -q --cov --maxfail=1 --disable-warnings
+          pytest --junitxml=report-python.xml
 
       - name: Setup Node.js
         if: matrix.language == 'node'
@@ -99,4 +101,14 @@ jobs:
         if: matrix.language == 'node'
         run: |
           cd front-end
-          npm test -- --run
+          npx vitest run --reporter=junit --outputFile=report-node.xml
+
+      - name: Test Report
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: ${{ matrix.language }} Tests
+          path: |
+            **/report-*.xml
+          reporter: jest-junit
+          fail-on-error: false
