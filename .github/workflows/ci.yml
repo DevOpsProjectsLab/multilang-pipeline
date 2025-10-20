@@ -98,5 +98,5 @@ jobs:
       - name: Run Unit & Integration Tests (Node)
         if: matrix.language == 'node'
         run: |
-          cd frontend
+          cd front-end
           npm test -- --run
