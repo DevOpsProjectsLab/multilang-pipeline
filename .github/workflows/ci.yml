@@ -115,5 +115,5 @@ jobs:
           name: ${{ matrix.language }} Tests
           path: |
             **/report-*.xml
-          reporter: ${{ matrix.language == 'Python' && 'java-junit' || 'jest-junit' }}
+          reporter: java-junit
           fail-on-error: false
