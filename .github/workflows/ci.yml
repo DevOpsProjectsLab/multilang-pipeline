@@ -4,11 +4,17 @@ on:
   push:
     branches: ["main"]
   pull_request:
+    branches: ["main"]
 
 permissions:
   contents: read
   checks: write
   pull-requests: write
+
+env:
+  PYTHON_VERSION: "3.12"
+  NODE_VERSION: "20"
+  CACHE_KEY: ${{ runner.os }}-${{ matrix.language }}
 
 jobs:
   Build:
@@ -27,37 +33,36 @@ jobs:
         if: matrix.language == 'Python'
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: "pip"
 
       - name: Install dependencies (Python)
         if: matrix.language == 'Python'
-        run: |
-          cd back-end
-          pip install -r requirements.txt
+        working-directory: back-end
+        run: pip install -r requirements.txt
 
       - name: Build (Python)
         if: matrix.language == 'Python'
-        run: |
-          cd back-end
-          python -m py_compile $(find app -name "*.py")
+        working-directory: back-end
+        run: python -m py_compile $(find app -name "*.py")
 
       - name: Setup Nodejs
         if: matrix.language == 'Nodejs'
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+          cache-dependency-path: front-end/package-lock.json
 
       - name: Install dependencies (Nodejs)
         if: matrix.language == 'Nodejs'
-        run: |
-          cd front-end
-          npm ci
+        working-directory: front-end
+        run: npm ci
 
       - name: Build (Nodejs)
         if: matrix.language == 'Nodejs'
-        run: |
-          cd front-end
-          npm run build
+        working-directory: front-end
+        run: npm run build
   
   Test:
     name: Test (${{ matrix.language }})
@@ -76,37 +81,36 @@ jobs:
         if: matrix.language == 'Python'
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: "pip"
 
       - name: Install dependencies (Python)
         if: matrix.language == 'Python'
-        run: |
-          cd back-end
-          pip install -r requirements.txt
+        working-directory: back-end
+        run: pip install -r requirements.txt
 
       - name: Run Unit & Integration Tests (Python)
         if: matrix.language == 'Python'
-        run: |
-          cd back-end
-          pytest --junitxml=report-python.xml
+        working-directory: back-end
+        run: pytest --junitxml=report-python.xml
 
       - name: Setup Nodejs
         if: matrix.language == 'Nodejs'
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+          cache-dependency-path: front-end/package-lock.json
 
       - name: Install dependencies (Nodejs)
         if: matrix.language == 'Nodejs'
-        run: |
-          cd front-end
-          npm ci
+        working-directory: front-end
+        run: npm ci
 
       - name: Run Unit & Integration Tests (Nodejs)
         if: matrix.language == 'Nodejs'
-        run: |
-          cd front-end
-          npm run test:ci
+        working-directory: front-end
+        run: npm run test:ci
 
       - name: Test Report
         uses: dorny/test-reporter@v1
