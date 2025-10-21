@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="vitest">
+  <testsuite name="AppIntegration.test.jsx" tests="1">
+    <testcase classname="AppIntegration.test.jsx" name="fluxo completo: contador + todo list" time="30">
+    </testcase>
+  </testsuite>
+  <testsuite name="Counter.test.jsx" tests="1">
+    <testcase classname="Counter.test.jsx" name="incrementa e reseta contagem" time="24">
+    </testcase>
+  </testsuite>
+  <testsuite name="TodoList.test.jsx" tests="1">
+    <testcase classname="TodoList.test.jsx" name="adiciona item na lista" time="26">
+    </testcase>
+  </testsuite>
+</testsuites>

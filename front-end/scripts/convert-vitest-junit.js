@@ -17,8 +17,8 @@ for (const suite of json.testResults || []) {
   xml += `  <testsuite name="${suiteName}" tests="${suite.assertionResults.length}">\n`;
 
   for (const test of suite.assertionResults) {
-    const duration = (test.duration ?? 0) / 1000; 
-    xml += `    <testcase classname="${suiteName}" name="${test.title}" time="${duration.toFixed(3)}">\n`;
+    const durationMs = Math.round(test.duration ?? 0)
+    xml += `    <testcase classname="${suiteName}" name="${test.title}" time="${durationMs}">\n`
     if (test.status !== "passed") {
       const msg = test.failureMessages?.join("\n") || test.status;
       xml += `      <failure message="${test.status}">${msg}</failure>\n`;
