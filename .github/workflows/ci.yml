@@ -17,44 +17,44 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [python, node]
+        language: [Python, Nodejs]
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup Python
-        if: matrix.language == 'python'
+        if: matrix.language == 'Python'
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
       - name: Install dependencies (Python)
-        if: matrix.language == 'python'
+        if: matrix.language == 'Python'
         run: |
           cd back-end
           pip install -r requirements.txt
 
       - name: Build (Python)
-        if: matrix.language == 'python'
+        if: matrix.language == 'Python'
         run: |
           cd back-end
           python -m py_compile $(find app -name "*.py")
 
-      - name: Setup Node.js
-        if: matrix.language == 'node'
+      - name: Setup Nodejs
+        if: matrix.language == 'Nodejs'
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Install dependencies (Node)
-        if: matrix.language == 'node'
+      - name: Install dependencies (Nodejs)
+        if: matrix.language == 'Nodejs'
         run: |
           cd front-end
           npm ci
 
-      - name: Build (Node)
-        if: matrix.language == 'node'
+      - name: Build (Nodejs)
+        if: matrix.language == 'Nodejs'
         run: |
           cd front-end
           npm run build
@@ -66,47 +66,47 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [python, node]
+        language: [Python, Nodejs]
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
       
       - name: Setup Python
-        if: matrix.language == 'python'
+        if: matrix.language == 'Python'
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
       - name: Install dependencies (Python)
-        if: matrix.language == 'python'
+        if: matrix.language == 'Python'
         run: |
           cd back-end
           pip install -r requirements.txt
 
       - name: Run Unit & Integration Tests (Python)
-        if: matrix.language == 'python'
+        if: matrix.language == 'Python'
         run: |
           cd back-end
           pytest --junitxml=report-python.xml
 
-      - name: Setup Node.js
-        if: matrix.language == 'node'
+      - name: Setup Nodejs
+        if: matrix.language == 'Nodejs'
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Install dependencies (Node)
-        if: matrix.language == 'node'
+      - name: Install dependencies (Nodejs)
+        if: matrix.language == 'Nodejs'
         run: |
           cd front-end
           npm ci
 
-      - name: Run Unit & Integration Tests (Node)
-        if: matrix.language == 'node'
+      - name: Run Unit & Integration Tests (Nodejs)
+        if: matrix.language == 'Nodejs'
         run: |
           cd front-end
-          npx vitest run --reporter=junit --outputFile=report-node.xml
+          npm run test:ci
 
       - name: Test Report
         uses: dorny/test-reporter@v1
@@ -115,5 +115,5 @@ jobs:
           name: ${{ matrix.language }} Tests
           path: |
             **/report-*.xml
-          reporter: ${{ matrix.language == 'python' && 'java-junit' || 'jest-junit' }}
+          reporter: ${{ matrix.language == 'Python' && 'java-junit' || 'jest-junit' }}
           fail-on-error: false

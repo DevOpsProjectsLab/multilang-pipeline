@@ -7,13 +7,15 @@
     "build": "vite build",
     "test": "vitest run",
     "test:ui": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "test:ci": "vitest run --reporter=json --outputFile=report-node.json && node scripts/convert-vitest-junit.js"
   },
   "dependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.0.1",
     "@vitejs/plugin-react": "^4.2.0",
     "jsdom": "^24.0.0",
