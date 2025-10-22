@@ -8,7 +8,7 @@
     "test": "vitest run",
     "test:ui": "vitest",
     "test:coverage": "vitest run --coverage",
-    "test:ci": "vitest run --coverage --reporter=json --outputFile=report-node.json && node scripts/convert-vitest-junit.js"
+    "test:ci": "vitest run --coverage --reporter=default --reporter=json --outputFile=report-node.json && node scripts/convert-vitest-junit.js"
   },
   "dependencies": {
     "react": "^18.3.1",
