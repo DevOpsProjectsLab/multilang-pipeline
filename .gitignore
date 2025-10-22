@@ -66,3 +66,7 @@ reports/
 ehthumbs.db
 Desktop.ini
 *~
+report-python.xml
+report-node.xml
+report-node.json
+coverage/

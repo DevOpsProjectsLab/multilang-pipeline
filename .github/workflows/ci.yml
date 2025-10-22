@@ -91,7 +91,7 @@ jobs:
       - name: Run Unit & Integration Tests (Python)
         if: matrix.language == 'Python'
         working-directory: back-end
-        run: pytest --junitxml=report-python.xml
+        run: pytest --cov=app --cov-report=term --cov-report=xml --junitxml=report-python.xml
 
       - name: Setup Nodejs
         if: matrix.language == 'Nodejs'
