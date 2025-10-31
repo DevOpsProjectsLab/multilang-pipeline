@@ -87,7 +87,7 @@ O workflow [`ci.yml`](.github/workflows/ci.yml) é o **núcleo do projeto**, res
 
 ![Pipeline Overview](.github/assets/pipeline-overview.png)
 
-A **matrix strategy** do GitHub Actions permite executar os jobs de **Python** e **Node.js** em paralelo, mantendo ambientes isolados e rastreáveis.
+A [**matrix strategy**](https://docs.github.com/pt/actions/how-tos/write-workflows/choose-what-workflows-do/run-job-variations) do GitHub Actions permite executar os jobs de **Python** e **Node.js** em paralelo, mantendo ambientes isolados e rastreáveis.
 
 Essa abordagem garante rapidez, independência entre stacks e visibilidade granular de cada estágio da pipeline.
 
