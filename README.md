@@ -110,7 +110,7 @@ Essa abordagem permite monitorar, de forma precisa e individual, a qualidade de 
 
 ### 📈 Cobertura de Código (Codecov)
 
-O projeto integra com o [Codecov](https://app.codecov.io/github/DevOpsProjectsLab/multilang-pipeline) para monitorar a cobertura de testes ao longo do tempo.
+O projeto integra com o [Codecov](https://about.codecov.io/) para monitorar a cobertura de testes ao longo do tempo.
 
 Cada execução do workflow envia relatórios:
 
@@ -125,6 +125,8 @@ O Codecov unifica as métricas das duas linguagens e gera:
 - Badge dinâmico no README ✅
 
 ![Codecov](.github/assets/codecov-report.png)
+
+> Para acessar o painel online de cobertura do projeto, acesse esse [link](https://app.codecov.io/github/DevOpsProjectsLab/multilang-pipeline)
 
 ---
 
